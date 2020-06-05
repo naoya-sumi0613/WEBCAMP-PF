@@ -44,6 +44,13 @@ class Users::PhotosController < ApplicationController
   	@photo = Photo.new(photo_params)
   	@photo.user_id = current_user.id
   	if @photo.save
+      if photo_params[:tag_list] == ""
+      tags = Vision.get_image_data(@photo.image)
+      tags.each do |tag|
+        @photo.tag_list.add(tag)
+      end
+      @photo.save
+    end
   	  redirect_to photo_path(@photo.id)
     else
       render 'new'
