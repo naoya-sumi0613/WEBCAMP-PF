@@ -44,14 +44,20 @@ class Users::PhotosController < ApplicationController
   	@photo = Photo.new(photo_params)
   	@photo.user_id = current_user.id
   	if @photo.save
-      if photo_params[:tag_list] == ""
-      tags = Vision.get_image_data(@photo.image)
-      tags.each do |tag|
-        @photo.tag_list.add(tag)
+      # AI画像処理
+      datas = Vision.get_image_data(@photo.image)
+      safe_search_annotations = datas['safeSearchAnnotation'].values
+      if safe_search_annotations.any?{|a| a == 'VERY_LIKELY' || a == 'LIKELY'}
+        @photo.destroy
+        render 'new'
+      elsif photo_params[:tag_list] == ""
+        tags = datas['labelAnnotations'].pluck('description').take(5)
+        tags.each do |tag|
+          @photo.tag_list.add(tag)
+        end
+        @photo.save
+        redirect_to photo_path(@photo.id)
       end
-      @photo.save
-    end
-  	  redirect_to photo_path(@photo.id)
     else
       render 'new'
     end
