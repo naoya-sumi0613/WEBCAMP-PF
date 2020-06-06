@@ -6,9 +6,9 @@
 
 <div class="row">
   <div class="col-12" style="max-width: 992px; margin: auto;">
-    <% if flash[:notice] %>
+    <% if flash[:safe] %>
       <div class="flash" style="color: red;">
-        <%= flash[:notice] %>
+        <%= flash[:safe] %>
       </div>
     <% end %>
     <%= render "users/shared/error_messages", resource: @photo %>
@@ -43,6 +43,9 @@
 			  <div class="col-12">
           <%= f.text_field :tag_list, placeholder: "タグ入力 (例) 動物　犬　かわいい", value: @photo.tag_list, class: "form-control" %>
 			  </div>
+        <div class="col-12" style="text-align: right; font-size: 12px;">
+          ※未入力の場合AIにより自動で入力されます(英語のみ)
+        </div>
 			</div>
 			<div class="form-row">
 				<div class="col-8">

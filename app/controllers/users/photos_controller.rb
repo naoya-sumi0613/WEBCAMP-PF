@@ -49,7 +49,7 @@ class Users::PhotosController < ApplicationController
       safe_search_annotations = datas['safeSearchAnnotation'].values
       if safe_search_annotations.any?{|a| a == 'VERY_LIKELY' || a == 'LIKELY'}
         @photo.destroy
-        flash[:notice] = "投稿が不適切と判断されました。"
+        flash[:safe] = "投稿が不適切と判断されました。"
         redirect_to new_photo_path
       elsif photo_params[:tag_list] == ""
         tags = datas['labelAnnotations'].pluck('description').take(5)
