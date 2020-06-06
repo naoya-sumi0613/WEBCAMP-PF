@@ -6,7 +6,12 @@ module Vision
     def get_image_data(image_file)
       api_url = "https://vision.googleapis.com/v1/images:annotate?key=#{ENV['GOOGLE_VISION_API_KEY']}"
       # 画像をbase64にエンコード
-      base64_image = Base64.encode64(open("#{Rails.root}/current/tmp/uploads/store/#{image_file.id}").read)
+      if Rails.env.production?
+        root = '/home/ec2-user/WEBCAMP-PF/current'
+      else
+        root = Rails.root
+      end
+      base64_image = Base64.encode64(open("#{root}/tmp/uploads/store/#{image_file.id}").read)
       # APIリクエスト用のJSONパラメータ
       params = {
         requests: [{
