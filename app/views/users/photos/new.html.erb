@@ -23,6 +23,9 @@
 					<div class="col-12">
             <%= attachment_image_tag @photo, :image, fallback: 'no_image_photo.jpg', size: '300x200', id: 'img_prev', class: "picture_stop" %>
 					</div>
+          <div class="col-12" style="text-align: right; font-size: 10px; clear: red;">
+        <span style="color: red;">※5MB以上の画像はエラーが発生する可能性があります</span>
+      </div>
 				</div>
 				<div class="row">
 					<div class="col-10 btn btn-primary btn-md" style="margin: auto; margin-top: 20px;">
@@ -44,8 +47,7 @@
           <%= f.text_field :tag_list, placeholder: "タグ入力 (例) 動物　犬　かわいい", value: @photo.tag_list, class: "form-control" %>
 			  </div>
         <div class="col-12" style="text-align: right; font-size: 12px;">
-          ※未入力の場合AIにより自動タグ付け(英語のみ)</br>
-          <span style="color: red;">※自動タグ付けは画像サイズ10MBまで</span>
+          ※未入力の場合AIにより自動タグ付け(英語のみ)
         </div>
 			</div>
 			<div class="form-row">
