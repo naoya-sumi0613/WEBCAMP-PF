@@ -44,7 +44,8 @@
           <%= f.text_field :tag_list, placeholder: "タグ入力 (例) 動物　犬　かわいい", value: @photo.tag_list, class: "form-control" %>
 			  </div>
         <div class="col-12" style="text-align: right; font-size: 12px;">
-          ※未入力の場合AIにより自動で入力されます(英語のみ)
+          ※未入力の場合AIにより自動タグ付け(英語のみ)</br>
+          <span style="color: red;">※自動タグ付けは画像サイズ10MBまで</span>
         </div>
 			</div>
 			<div class="form-row">
