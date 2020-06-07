@@ -51,10 +51,12 @@ class Users::PhotosController < ApplicationController
         @photo.destroy
         flash[:safe] = "投稿が不適切と判断されました。"
         redirect_to new_photo_path
-      elsif photo_params[:tag_list] == ""
-        tags = datas['labelAnnotations'].pluck('description').take(5)
-        tags.each do |tag|
-          @photo.tag_list.add(tag)
+      else
+        if photo_params[:tag_list] == ""
+          tags = datas['labelAnnotations'].pluck('description').take(5)
+          tags.each do |tag|
+           @photo.tag_list.add(tag)
+          end
         end
         @photo.save
         redirect_to photo_path(@photo.id)
