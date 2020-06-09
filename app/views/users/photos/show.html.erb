@@ -25,9 +25,7 @@
 			<% end %>
 			<div class="row" style="margin: 15px auto;">
 				<div class="col-12">
-					<%=  link_to asset_path(@photo.image_url), 'data-lightbox': @photo.image do %>
-						<%= attachment_image_tag @photo, :image, class: "picture_stop" %>
-					<% end %>
+					<%= attachment_image_tag @photo, :image, class: "picture_stop" %>
 				</div>
 			</div>
 			<div class="row" style="margin: auto; font-size: 11px;">
