@@ -44,6 +44,7 @@ group :development, :test do
   gem 'capistrano-rails'
   gem 'capistrano3-puma'
   gem 'capistrano-rbenv'
+  gem 'rspec-rails'
 end
 
 group :development do
@@ -81,7 +82,6 @@ gem 'acts-as-taggable-on', '~> 6.0'
 gem 'impressionist', '~>1.6.1'
 gem 'kaminari'
 gem 'rails-i18n'
-
 
 gem 'ed25519'
 gem 'bcrypt_pbkdf'
