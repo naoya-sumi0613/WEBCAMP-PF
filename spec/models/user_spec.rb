@@ -1,23 +1,73 @@
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
+RSpec.describe 'Userモデルのテスト', type: :model do
 
-  context "データが正しく保存される" do
-    before do
-      @user = User.new
-      @user.last_name = "手須戸"
-      @user.read_last_name = "テスト"
-      @user.full_name = ""
-      @user.first_name = "太郎"
-      @user.read_first_name = "タロウ"
-      @user.read_full_name = ""
-      @user.email = "tesuto@tarou"
-      @user.password = "tesuto"
-      @user.save
+  describe 'バリデーションのテスト' do
+    let(:user){ create :user}
 
+    context "新規登録" do
+      it '値が全て正しく入力されていれば保存される' do
+        expect(user).to be_valid
+      end
     end
-    it "全て入力してあるので保存される" do
-      expect(@user).to be_valid
+
+    context "last_nameカラム" do
+      it "空欄でないこと" do
+        user.last_name = ''
+        expect(user.valid?).to eq(false)
+      end
+      it "10文字以下であること" do
+        user.last_name = '１１文字１１文字１１文'
+        expect(user.valid?).to eq(false)
+      end
+    end
+
+    context "first_nameカラム" do
+      it "空欄でないこと" do
+        user.first_name = ''
+        expect(user.valid?).to eq(false)
+      end
+      it "10文字以下であること" do
+        user.first_name = '１１文字１１文字１１文'
+        expect(user.valid?).to eq(false)
+      end
+    end
+
+    context "read_last_nameカラム" do
+      it "空欄でないこと" do
+        user.read_last_name = ''
+        expect(user.valid?).to eq(false)
+      end
+      it "20文字以下であること" do
+        user.read_last_name = 'モジセイゲンモジセイゲンモジセイゲンモジセ'
+        expect(user.valid?).to eq(false)
+      end
+      it "入力がカタカナであること" do
+        user.read_last_name = 'てすと'
+        expect(user.valid?).to eq(false)
+      end
+    end
+
+    context "read_first_nameカラム" do
+      it "空欄でないこと" do
+        user.read_first_name = ''
+        expect(user.valid?).to eq(false)
+      end
+      it "20文字以下であること" do
+        user.read_first_name = 'モジセイゲンモジセイゲンモジセイゲンモジセ'
+        expect(user.valid?).to eq(false)
+      end
+      it "入力がカタカナであること" do
+        user.read_first_name = 'たろう'
+        expect(user.valid?).to eq(false)
+      end
+    end
+
+    context "introductionカラム" do
+      it "100文字以下であること" do
+        user.introduction = '101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字1'
+        expect(user.valid?).to eq(false)
+      end
     end
   end
 end
