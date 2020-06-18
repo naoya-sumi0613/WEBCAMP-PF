@@ -16,7 +16,7 @@ RSpec.describe 'Contactモデルのテスト', type: :model do
         expect(contact.valid?).to eq(false)
       end
       it "50文字以下であること" do
-        contact.title = '５０文字５０文字５０文字５０文字５０文字５０文字５０文字５０文字５０文字５０文字５０文字５０文字５０文'
+        contact.title = Faker::Lorem.characters(number:51)
         expect(contact.valid?).to eq(false)
       end
     end
@@ -27,7 +27,7 @@ RSpec.describe 'Contactモデルのテスト', type: :model do
         expect(contact.valid?).to eq(false)
       end
       it "150文字以下であること" do
-        contact.content = '１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１５０文字１'
+        contact.content = Faker::Lorem.characters(number:151)
         expect(contact.valid?).to eq(false)
       end
     end

@@ -1,8 +1,8 @@
 FactoryBot.define do
 
   factory :contact do
-    title { "お問い合わせ" }
-    content { "テストです" }
+    title { Faker::Lorem.characters(number:30) }
+    content { Faker::Lorem.characters(number:100) }
 
     user
   end

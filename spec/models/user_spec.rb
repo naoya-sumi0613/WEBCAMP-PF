@@ -4,6 +4,7 @@ RSpec.describe 'Userモデルのテスト', type: :model do
 
   describe 'バリデーションのテスト' do
     let(:user){ create :user}
+    gimei = Gimei.name
 
     context "新規登録" do
       it '値が全て正しく入力されていれば保存される' do
@@ -17,7 +18,7 @@ RSpec.describe 'Userモデルのテスト', type: :model do
         expect(user.valid?).to eq(false)
       end
       it "10文字以下であること" do
-        user.last_name = '１１文字１１文字１１文'
+        user.last_name = Faker::Lorem.characters(number:11)
         expect(user.valid?).to eq(false)
       end
     end
@@ -28,7 +29,7 @@ RSpec.describe 'Userモデルのテスト', type: :model do
         expect(user.valid?).to eq(false)
       end
       it "10文字以下であること" do
-        user.first_name = '１１文字１１文字１１文'
+        user.first_name = Faker::Lorem.characters(number:11)
         expect(user.valid?).to eq(false)
       end
     end
@@ -39,11 +40,11 @@ RSpec.describe 'Userモデルのテスト', type: :model do
         expect(user.valid?).to eq(false)
       end
       it "20文字以下であること" do
-        user.read_last_name = 'モジセイゲンモジセイゲンモジセイゲンモジセ'
+        user.read_last_name = ('ア'..'ン').to_a.sample(21).join
         expect(user.valid?).to eq(false)
       end
       it "入力がカタカナであること" do
-        user.read_last_name = 'てすと'
+        user.read_last_name = gimei.last.hiragana
         expect(user.valid?).to eq(false)
       end
     end
@@ -54,18 +55,18 @@ RSpec.describe 'Userモデルのテスト', type: :model do
         expect(user.valid?).to eq(false)
       end
       it "20文字以下であること" do
-        user.read_first_name = 'モジセイゲンモジセイゲンモジセイゲンモジセ'
+        user.read_first_name = ('ア'..'ン').to_a.sample(21).join
         expect(user.valid?).to eq(false)
       end
       it "入力がカタカナであること" do
-        user.read_first_name = 'たろう'
+        user.read_first_name = gimei.first.hiragana
         expect(user.valid?).to eq(false)
       end
     end
 
     context "introductionカラム" do
       it "100文字以下であること" do
-        user.introduction = '101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字101文字1'
+        user.introduction = Faker::Lorem.characters(number:101)
         expect(user.valid?).to eq(false)
       end
     end

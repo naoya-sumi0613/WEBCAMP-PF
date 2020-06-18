@@ -46,6 +46,8 @@ group :development, :test do
   gem 'capistrano-rbenv'
   gem 'rspec-rails'
   gem 'factory_bot_rails'
+  gem 'gimei'
+  gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
 end
 
 group :development do
