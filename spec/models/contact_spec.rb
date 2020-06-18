@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Contactモデルのテスト', type: :model do
-  let(:contact){ create :contact}
 
   describe 'バリデーション' do
+    let(:contact){ create :contact}
+
     context "お問い合わせ送信" do
       it "値が全て正しく入力されていれば保存される" do
         expect(contact).to be_valid
