@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 2020_05_19_023503) do
     t.integer "visited_id", null: false
     t.integer "photo_id"
     t.integer "comment_id"
-    t.integer "action", default: 0, null: false
+    t.integer "action", null: false
     t.boolean "checked", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -153,11 +153,11 @@ ActiveRecord::Schema.define(version: 2020_05_19_023503) do
     t.datetime "remember_created_at"
     t.string "last_name", null: false
     t.string "first_name", null: false
-    t.string "full_name", null: false
+    t.string "full_name"
     t.string "read_last_name", null: false
     t.string "read_first_name", null: false
-    t.string "read_full_name", null: false
-    t.string "image_id"
+    t.string "read_full_name"
+    t.string "image"
     t.string "introduction"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

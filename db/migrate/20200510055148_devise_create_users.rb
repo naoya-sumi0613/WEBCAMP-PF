@@ -34,10 +34,10 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
 
       t.string :last_name ,null: false
       t.string :first_name ,null: false
-      t.string :full_name ,null: false
+      t.string :full_name
       t.string :read_last_name ,null: false
       t.string :read_first_name ,null: false
-      t.string :read_full_name ,null: false
+      t.string :read_full_name
       t.string :image
       t.string :introduction
       t.timestamps null: false
