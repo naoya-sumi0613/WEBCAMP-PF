@@ -24,9 +24,6 @@
     </div>
   </div>
 </div>
-<div class="field">
-<%= f.hidden_field :full_name, :value => "#{:last_name}#{:first_name}"  %>
-</div>
 <div class="form-row">
   <div class="col-6">
     <div class="field">
@@ -38,9 +35,6 @@
       <%= f.text_field :read_first_name, placeholder: "メイ", class: "form-control", style: "max-width: 250px;"  %>
     </div>
   </div>
-</div>
-<div class="field">
-<%= f.hidden_field :read_full_name, :value => "#{:read_last_name}#{:read_first_name}" %>
 </div>
 <div class="form-row">
   <div class="col-12">

@@ -34,10 +34,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
 
       t.string :last_name ,null: false
       t.string :first_name ,null: false
-      t.string :full_name
       t.string :read_last_name ,null: false
       t.string :read_first_name ,null: false
-      t.string :read_full_name
       t.string :image
       t.string :introduction
       t.timestamps null: false
@@ -45,8 +43,6 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
 
     add_index :users, :email,                unique: true
     add_index :users, :reset_password_token, unique: true
-    add_index :users, :full_name
-    add_index :users, :read_full_name
     add_index :users, :created_at
     # add_index :users, :confirmation_token,   unique: true
     # add_index :users, :unlock_token,         unique: true
