@@ -64,7 +64,7 @@ RSpec.describe "Usersコントローラーのテスト", type: :request do
         expect(current_path).to eq user_path(user)
       end
       it 'ユーザー画像が表示される' do
-        expect(page).to have_content(user.image)
+        expect(page).to have_css('img.image')
       end
       it 'ユーザー名が表示される' do
         expect(page).to have_content("#{user.last_name} #{user.first_name}")
@@ -103,7 +103,7 @@ RSpec.describe "Usersコントローラーのテスト", type: :request do
         visit edit_user_path(user2)
         expect(current_path).to eq user_path(user)
       end
-      it '画像編集フォームが表示される' do
+      it '"画像"編集フォームが表示される' do
         expect(page).to have_field 'user[image]'
       end
       it '"姓"編集フォームに自分の"姓"が表示される' do
@@ -117,6 +117,53 @@ RSpec.describe "Usersコントローラーのテスト", type: :request do
       end
       it '"メイ"編集フォームに自分の"メイ"が表示される' do
         expect(page).to have_field 'user[read_first_name]', with: user.read_first_name
+      end
+      it '"メールアドレス"編集フォームに自分の"メールアドレス"が表示される' do
+        expect(page).to have_field 'user[email]', with: user.email
+      end
+      it '"自己紹介"編集フォームが表示される' do
+        expect(page).to have_field 'user[introduction]'
+      end
+      it '更新ボタンが表示される' do
+        expect(page).to have_button '更新する'
+      end
+      it '退会リンクが表示される' do
+        expect(page).to have_link '退会', href: retire_user_path(user)
+      end
+      it '更新に成功する' do
+        fill_in 'user[last_name]', with: gimei.last.kanji
+        fill_in 'user[first_name]', with: gimei.first.kanji
+        fill_in 'user[read_last_name]', with: gimei.last.katakana
+        fill_in 'user[read_first_name]', with: gimei.first.katakana
+        fill_in 'user[email]', with: Faker::Internet.email
+        fill_in 'user[introduction]', with: Faker::Lorem.characters(number:80)
+        click_button '更新する'
+        expect(page).to have_content 'あなたの投稿一覧'
+      end
+      it '"姓"が空欄の時"姓を入力してください"と表示され、更新に失敗する' do
+        fill_in 'user[last_name]', with: ""
+        click_button '更新する'
+        expect(page).to have_content '姓を入力してください'
+      end
+      it '"名"が空欄の時"名を入力してください"と表示され、更新に失敗する' do
+        fill_in 'user[first_name]', with: ""
+        click_button '更新する'
+        expect(page).to have_content '名を入力してください'
+      end
+      it '"セイ"が空欄の時"セイを入力してください"と表示され、更新に失敗する' do
+        fill_in 'user[read_last_name]', with: ""
+        click_button '更新する'
+        expect(page).to have_content 'セイを入力してください'
+      end
+      it '"メイ"が空欄の時"メイを入力してください"と表示され、更新に失敗する' do
+        fill_in 'user[read_first_name]', with: ""
+        click_button '更新する'
+        expect(page).to have_content 'メイを入力してください'
+      end
+      it '"メールアドレス"が空欄の時"メールアドレスを入力してください"と表示され、更新に失敗する' do
+        fill_in 'user[email]', with: ""
+        click_button '更新する'
+        expect(page).to have_content 'メールアドレスを入力してください'
       end
     end
   end

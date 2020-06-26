@@ -12,7 +12,7 @@ RSpec.describe 'Photoモデルのテスト', type: :model do
     end
 
     context "imageカラム" do
-      it '画像が選択されていること' do
+      it '画像が存在すること' do
         photo.image_id = ""
         expect(photo.valid?).to eq(false)
       end
