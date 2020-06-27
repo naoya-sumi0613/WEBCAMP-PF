@@ -49,7 +49,7 @@ RSpec.describe "Usersコントローラーのテスト", type: :request do
     context '未ログインの場合' do
       it 'ログインページへリダイレクトされる' do
         visit user_path(user)
-        expect(page).to have_content('ログイン')
+        expect(current_path).to eq new_user_session_path
       end
     end
     context 'ログイン済の場合' do
@@ -85,7 +85,7 @@ RSpec.describe "Usersコントローラーのテスト", type: :request do
     context '未ログインの場合' do
       it 'ログインページへリダイレクトされる' do
         visit edit_user_path(user)
-        expect(page).to have_content('ログイン')
+        expect(current_path).to eq new_user_session_path
       end
     end
     context 'ログイン済の場合' do
@@ -165,6 +165,47 @@ RSpec.describe "Usersコントローラーのテスト", type: :request do
         click_button '更新する'
         expect(page).to have_content 'メールアドレスを入力してください'
       end
+    end
+  end
+
+  describe 'Users/ritire' do
+    context '未ログインの場合' do
+      it 'ログインページへリダイレクトされる' do
+        visit retire_user_path(user)
+        expect(current_path).to eq new_user_session_path
+      end
+    end
+    context 'ログイン済の場合' do
+      before do
+        visit new_user_session_path
+        fill_in 'user[email]', with: user.email
+        fill_in 'user[password]', with: user.password
+        click_button 'ログイン'
+        visit retire_user_path(user)
+      end
+      it '退会画面が表示される' do
+        expect(current_path).to eq retire_user_path(user)
+      end
+      it '他ユーザー編集画面には遷移できない' do
+        visit retire_user_path(user2)
+        expect(current_path).to eq user_path(user)
+      end
+      it '退会しないリンクが表示される' do
+        expect(page).to have_link '退会しない'
+      end
+      it '退会しないリンクを押すとマイページへ遷移する' do
+        click_on '退会しない'
+        expect(current_path).to eq user_path(user)
+      end
+      it '退会するボタンが表示される' do
+        expect(page).to have_link '退会する'
+      end
+      it '退会するボタンを押すとユーザーが削除される' do
+        expect{ click_on '退会する' }.to change(User, :count).by(-1)
+      end
+      it 'ユーザー削除後はトップページへ遷移する' do
+        click_on '退会する'
+        expect(current_path).to eq root_path
     end
   end
 end
