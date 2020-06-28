@@ -78,6 +78,12 @@ RSpec.describe "Usersコントローラーのテスト", type: :request do
       it '編集リンクが表示される' do
         expect(page).to have_link '', href: edit_user_path(user)
       end
+      it 'フォローユーザーリンクが表示される' do
+        expect(page).to have_link '', href: follow_user_path(user)
+      end
+      it 'フォロワーユーザーリンクが表示される' do
+        expect(page).to have_link '', href: follower_user_path(user)
+      end
     end
   end
 
@@ -206,6 +212,55 @@ RSpec.describe "Usersコントローラーのテスト", type: :request do
       it 'ユーザー削除後はトップページへ遷移する' do
         click_on '退会する'
         expect(current_path).to eq root_path
+      end
+    end
+  end
+
+  describe 'Users/follow' do
+    context '未ログインの場合' do
+      it 'ログインページへリダイレクトされる' do
+        visit follow_user_path(user)
+        expect(current_path).to eq new_user_session_path
+      end
+    end
+    context 'ログイン済の場合' do
+      before do
+        visit new_user_session_path
+        fill_in 'user[email]', with: user.email
+        fill_in 'user[password]', with: user.password
+        click_button 'ログイン'
+        visit follow_user_path(user)
+      end
+      it 'フォローユーザー画面が表示される' do
+        expect(current_path).to eq follow_user_path(user)
+      end
+      it '戻るリンクが表示される' do
+        expect(page).to have_link '', href: user_path(user)
+      end
+    end
+  end
+
+  describe 'Users/follower' do
+    context '未ログインの場合' do
+      it 'ログインページへリダイレクトされる' do
+        visit follower_user_path(user)
+        expect(current_path).to eq new_user_session_path
+      end
+    end
+    context 'ログイン済の場合' do
+      before do
+        visit new_user_session_path
+        fill_in 'user[email]', with: user.email
+        fill_in 'user[password]', with: user.password
+        click_button 'ログイン'
+        visit follower_user_path(user)
+      end
+      it 'フォロワーユーザー画面が表示される' do
+        expect(current_path).to eq follower_user_path(user)
+      end
+      it '戻るリンクが表示される' do
+        expect(page).to have_link '', href: user_path(user)
+      end
     end
   end
 end
