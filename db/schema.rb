@@ -153,18 +153,14 @@ ActiveRecord::Schema.define(version: 2020_05_19_023503) do
     t.datetime "remember_created_at"
     t.string "last_name", null: false
     t.string "first_name", null: false
-    t.string "full_name", null: false
     t.string "read_last_name", null: false
     t.string "read_first_name", null: false
-    t.string "read_full_name", null: false
     t.string "image_id"
     t.string "introduction"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["full_name"], name: "index_users_on_full_name"
-    t.index ["read_full_name"], name: "index_users_on_read_full_name"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
