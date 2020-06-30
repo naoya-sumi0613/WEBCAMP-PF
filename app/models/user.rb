@@ -4,8 +4,8 @@ class User < ApplicationRecord
 
   validates :last_name, presence: true, length: {maximum: 10}
   validates :first_name, presence: true, length: {maximum: 10}
-  validates :read_last_name, presence: true, length: {maximum: 20}, format: {with: /\A[\p{katakana}]+\z/, message: "はカタカナで入力してください", allow_blank: true}
-  validates :read_first_name, presence: true, length: {maximum: 20}, format: {with: /\A[\p{katakana}]+\z/, message: "はカタカナで入力してください", allow_blank: true}
+  validates :read_last_name, presence: true, length: {maximum: 20}, format: {with: /\A[\p{katakana}　ー－]+\z/, message: "は全角カタカナのみで入力してください", allow_blank: true}
+  validates :read_first_name, presence: true, length: {maximum: 20}, format: {with: /\A[\p{katakana}　ー－]+\z/, message: "は全角カタカナのみで入力してください", allow_blank: true}
   validates :introduction, length: {maximum: 100}
 
   devise :database_authenticatable, :registerable,
