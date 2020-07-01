@@ -95,7 +95,7 @@ class Users::PhotosController < ApplicationController
   end
 
 
-
+  private
   def photo_params
   	params.require(:photo).permit(:user_id, :image, :word, :range, :tag_list)
   end

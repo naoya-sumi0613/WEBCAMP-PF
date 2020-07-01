@@ -11,6 +11,7 @@ class Users::RelationshipsController < ApplicationController
   end
 
 
+  private
   def relationship_params
   	params.require(:relationship).permit(:user_id)
   end
