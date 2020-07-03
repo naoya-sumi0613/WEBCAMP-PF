@@ -45,7 +45,7 @@ RSpec.describe "Usersコントローラーのテスト", type: :request do
     end
   end
 
-  describe 'Users/show' do
+  describe 'Users/show(マイページ)' do
     context '未ログインの場合' do
       it 'ログインページへリダイレクトされる' do
         visit user_path(user)
@@ -78,12 +78,58 @@ RSpec.describe "Usersコントローラーのテスト", type: :request do
       it '編集リンクが表示される' do
         expect(page).to have_link '', href: edit_user_path(user)
       end
+      it '通知リンクが表示される' do
+        expect(page).to have_link '', href: notifications_path
+      end
+      it 'フォローするボタンが表示されていない' do
+        expect(page).to have_no_link 'フォローする'
+      end
       it 'フォローユーザーリンクが表示される' do
         expect(page).to have_link '', href: follow_user_path(user)
       end
       it 'フォロワーユーザーリンクが表示される' do
         expect(page).to have_link '', href: follower_user_path(user)
       end
+    end
+  end
+
+  describe 'Users/show(他ユーザー画面)' do
+    before do
+      visit new_user_session_path
+      fill_in 'user[email]', with: user.email
+      fill_in 'user[password]', with: user.password
+      click_button 'ログイン'
+      visit user_path(user2)
+    end
+    it 'ユーザー詳細画面が表示される' do
+      expect(current_path).to eq user_path(user2)
+    end
+    it 'ユーザー画像が表示される' do
+      expect(page).to have_css('img.image')
+    end
+    it 'ユーザー名が表示される' do
+      expect(page).to have_content("#{user2.last_name} #{user2.first_name}")
+    end
+    it 'ユーザー名にふりがながついている' do
+      expect(page).to have_content("#{user2.read_last_name} #{user2.read_first_name}")
+    end
+    it '自己紹介文が表示される' do
+      expect(page).to have_content(user2.introduction)
+    end
+    it '編集リンクが表示されない' do
+      expect(page).to have_no_link '', href: edit_user_path(user2)
+    end
+    it '通知リンクが表示されない' do
+        expect(page).to have_no_link '', href: notifications_path
+    end
+    it 'フォローするボタンが表示される' do
+      expect(page).to have_link 'フォローする'
+    end
+    it 'フォローユーザーリンクが表示される' do
+      expect(page).to have_link '', href: follow_user_path(user2)
+    end
+    it 'フォロワーユーザーリンクが表示される' do
+      expect(page).to have_link '', href: follower_user_path(user2)
     end
   end
 
