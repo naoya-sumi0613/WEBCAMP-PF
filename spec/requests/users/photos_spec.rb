@@ -51,6 +51,12 @@ RSpec.describe "Photosコントローラーのテスト", type: :request do
       it 'フォロワーユーザーリンクが表示される' do
         expect(page).to have_link '', href: follower_user_path(user)
       end
+      it '投稿画像が表示される' do
+        expect(page).to have_css('#rspec_photo')
+      end
+      it '投稿詳細リンクが表示される' do
+        expect(page).to have_link '', href: photo_path(photo)
+      end
     end
   end
 end
