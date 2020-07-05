@@ -26,7 +26,7 @@
 			<div class="row" style="margin: 15px auto;">
 				<div class="col-12">
 					<%=  link_to attachment_url(@photo, :image),:rel => "lightbox" do %>
-						<%= attachment_image_tag @photo, :image, class: "picture_stop" %>
+						<%= attachment_image_tag @photo, :image, class: "picture_stop", id: 'rspec_photo' %>
 					<% end %>
 				</div>
 			</div>
@@ -66,7 +66,7 @@
 				</div>
 				<div class="col-3" style="text-align: center;">
 					<% if @user == current_user %>
-						<%= link_to photo_path(@photo), style: "color: gray;", method: :delete, "data-confirm" => "投稿を削除します。よろしいですか？" do %>
+						<%= link_to photo_path(@photo), style: "color: gray;", method: :delete, "data-confirm" => "投稿を削除します。よろしいですか？", id:"rspec_delete" do %>
 							<i class="far fa-trash-alt"></i>
 						<% end %>
 					<% else %>

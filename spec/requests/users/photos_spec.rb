@@ -59,4 +59,83 @@ RSpec.describe "Photosコントローラーのテスト", type: :request do
       end
     end
   end
+
+  describe 'photos/show' do
+    context '未ログインの場合' do
+      it 'ログインページへリダイレクトされる' do
+        visit photo_path(photo)
+        expect(current_path).to eq new_user_session_path
+      end
+    end
+    context 'ログイン済の場合' do
+      before do
+        visit new_user_session_path
+        fill_in 'user[email]', with: user.email
+        fill_in 'user[password]', with: user.password
+        click_button 'ログイン'
+        visit photo_path(photo)
+      end
+      it '投稿詳細画面が表示される' do
+        expect(current_path).to eq photo_path(photo)
+      end
+      it 'ユーザー画像が表示される' do
+        expect(page).to have_css('img.image')
+      end
+      it 'ユーザー名が表示される' do
+        expect(page).to have_content("#{photo.user.last_name} #{photo.user.first_name}")
+      end
+      it 'ユーザーリンクが表示される' do
+        expect(page).to have_link '', href: user_path(user)
+      end
+      it '投稿画像が表示される' do
+        expect(page).to have_css('#rspec_photo')
+      end
+      it '投稿した日付が表示される' do
+        expect(page).to have_content(photo.created_at.strftime('%Y/%m/%d'))
+      end
+      it '一言が表示される' do
+        expect(page).to have_content(photo.word)
+      end
+      it 'いいね数が表示される' do
+        expect(page).to have_content(photo.likes.count)
+      end
+      it 'いいねしたユーザーリンクが表示される' do
+        expect(page).to have_link '', href: photo_likes_path(photo)
+      end
+      it 'コメント数が表示される' do
+        expect(page).to have_content(photo.comments.count)
+      end
+      it 'コメントしたユーザーリンクが表示される' do
+        expect(page).to have_link '', href: photo_comments_path(photo)
+      end
+      it '閲覧数が表示される' do
+        expect(page).to have_content(photo.impressions_count)
+      end
+      it '削除ボタンが表示される' do
+        expect(page).to have_css('.fa-trash-alt')
+      end
+      # 削除処理を追加したい
+
+      it 'セレクトボックスの初期値が現在の公開範囲になっている' do
+        expect(page).to have_select(selected: photo.range)
+      end
+      it 'セレクトボックスの値が"全ユーザー","フォロワーのみ","自分のみ"となっている' do
+        expect(page).to have_select(options: ['全ユーザー', 'フォロワーのみ', '自分のみ'])
+      end
+      it '更新ボタンが表示される' do
+        expect(page).to have_button '更新'
+      end
+      it '公開範囲を更新後、セレクトボックス初期値がその値に変更される' do
+        select ['全ユーザー','フォロワーのみ','自分のみ'][rand(3)]
+        click_on '更新'
+        expect(page).to have_select(selected: photo.range)
+      end
+      it 'コメント欄が表示される' do
+        expect(page).to have_field 'comment[comment]'
+      end
+      it 'コメントするボタンが表示される' do
+        expect(page).to have_button 'コメントする'
+      end
+    end
+  end
 end
