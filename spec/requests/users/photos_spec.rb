@@ -125,16 +125,49 @@ RSpec.describe "Photosコントローラーのテスト", type: :request do
       it '更新ボタンが表示される' do
         expect(page).to have_button '更新'
       end
-      it '公開範囲を更新後、セレクトボックス初期値がその値に変更される' do
-        select ['全ユーザー','フォロワーのみ','自分のみ'][rand(3)]
-        click_on '更新'
-        expect(page).to have_select(selected: photo.range)
-      end
+      # 更新処理を追加したい
+
       it 'コメント欄が表示される' do
         expect(page).to have_field 'comment[comment]'
       end
       it 'コメントするボタンが表示される' do
         expect(page).to have_button 'コメントする'
+      end
+    end
+  end
+
+  describe 'photos/new' do
+    context '未ログインの場合' do
+      it 'ログインページへリダイレクトされる' do
+        visit new_photo_path
+        expect(current_path).to eq new_user_session_path
+      end
+    end
+    context 'ログイン済の場合' do
+      before do
+        visit new_user_session_path
+        fill_in 'user[email]', with: user.email
+        fill_in 'user[password]', with: user.password
+        click_button 'ログイン'
+        visit new_photo_path
+      end
+      it '投稿画面が表示される' do
+        expect(current_path).to eq new_photo_path
+      end
+      it '"画像"選択フォームが表示される' do
+        expect(page).to have_field 'photo[image]'
+      end
+      it '"一言"入力フォームが表示される' do
+        expect(page).to have_field 'photo[word]'
+      end
+      it '"タグ"入力フォームが表示される' do
+        expect(page).to have_field 'photo[tag_list]'
+      end
+      it '"公開範囲"選択フォームが表示される' do
+        expect(page).to have_field 'photo[range]'
+      end
+      it '投稿するボタンが表示される' do
+        expect(page).to have_button '投稿する'
       end
     end
   end
