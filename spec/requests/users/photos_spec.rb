@@ -5,6 +5,7 @@ RSpec.describe "Photosコントローラーのテスト", type: :request do
   let(:user) { create(:user) }
   let!(:user2) { create(:user) }
   let!(:photo) { create(:photo, user: user)}
+  let!(:comment) { create(:comment, photo: photo, user: user2)}
 
   describe 'photos/index' do
     context '未ログインの場合' do
@@ -133,6 +134,11 @@ RSpec.describe "Photosコントローラーのテスト", type: :request do
       it 'コメントするボタンが表示される' do
         expect(page).to have_button 'コメントする'
       end
+      it 'コメント投稿ができる' do
+        fill_in 'comment[comment]', with: Faker::Lorem.characters(number:30)
+        click_button 'コメントする'
+        expect(current_path).to eq comments_photo_path(photo)
+      end
     end
   end
 
@@ -168,6 +174,27 @@ RSpec.describe "Photosコントローラーのテスト", type: :request do
       end
       it '投稿するボタンが表示される' do
         expect(page).to have_button '投稿する'
+      end
+    end
+  end
+
+  describe 'photos/comments' do
+    context '未ログインの場合' do
+      it 'ログインページへリダイレクトされる' do
+        visit comments_photo_path(photo)
+        expect(current_path).to eq new_user_session_path
+      end
+    end
+    context 'ログイン済の場合' do
+      before do
+        visit new_user_session_path
+        fill_in 'user[email]', with: user.email
+        fill_in 'user[password]', with: user.password
+        click_button 'ログイン'
+        visit comments_photo_path(photo)
+      end
+      it 'コメントしたユーザー一覧画面が表示される' do
+        expect(current_path).to eq comments_photo_path(photo)
       end
     end
   end
