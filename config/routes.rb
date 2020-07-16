@@ -1,14 +1,10 @@
 Rails.application.routes.draw do
 
   root 'users/homes#top'
-  devise_for :admins
+  devise_for :admins, only: :session
 
   scope module: :users do
-  	devise_for :users, controllers: {
-  		sessions: 'users/sessions',
-  		registrations: 'users/registrations',
-  		passwords: 'users/passwords'
-  	}
+  	devise_for :users, only: [:session, :registration]
     delete "notifications" => "notifications#destroy_all"
     resources :notifications, only: [:index, :destroy]
     get 'homes/about'
@@ -32,6 +28,11 @@ Rails.application.routes.draw do
 
 
   namespace :admins do
+    devise_for :users, controllers: {
+      sessions: 'users/sessions',
+      registrations: 'users/registrations',
+      passwords: 'users/passwords'
+    }
     get 'home/top'
     resources :users, only: [:index, :show, :destroy]
     resources :photos, only: [:index, :show, :destroy]
