@@ -1,11 +1,17 @@
 # Flip Flap  
   
 ## サイトURL  
+ユーザー側  
 https://flipflap.work/  
   
 テストユーザーログイン  
 　メールアドレス：test@user  
 　パスワード：testuser  
+ 
+管理者側  
+https://flipflap.work/admins/sign_in  
+　メールアドレス：flip@flap  
+　パスワード：flipflap 
   
 ## サイト概要
 生き物や風景など、何気なく撮影した写真を一言と共に保存。共有。SNS。  
