@@ -1,6 +1,7 @@
 # Flip Flap  
   
 ## サイトURL  
+# サイトは削除しました
 ユーザー側  
 https://flipflap.work/  
   
